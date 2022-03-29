@@ -1,35 +1,48 @@
-let allLinks = document.getElementsByTagName("a");
-let msg, bgColor;
+MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-for (let i = 0; i < allLinks.length; i++) {
-  allLinks[i].addEventListener("mouseover", () => {
-    let target = allLinks[i].getAttribute("target");
+var observer = new MutationObserver(function(mutations, observer) {
+    // fired when a mutation occurs
+    let allLinks = document.getElementsByTagName("a");
+    let msg, bgColor;
 
-    if (target === "_blank") {
-      msg = "New Tab";
-      bgColor = "#FF3434";
-    } else {
-      msg = "Same Tab";
-      bgColor = "rgb(0 149 255 / 90%)";
+    for (let i = 0; i < allLinks.length; i++) {
+      allLinks[i].addEventListener("mouseover", () => {
+        let target = allLinks[i].getAttribute("target");
+
+        if (target === "_blank") {
+          msg = "New Tab";
+          bgColor = "#FF3434";
+        } else {
+          msg = "Same Tab";
+          bgColor = "rgb(0 149 255 / 90%)";
+        }
+        let wrapper = document.createElement("strong");
+
+        wrapper.id = "link-target-wrapper";
+
+        wrapper.innerText = msg;
+
+        if (bgColor) {
+          wrapper.style.backgroundColor = bgColor;
+        } else {
+          wrapper.style.backgroundColor = bgColor;
+        }
+
+        document.body.prepend(wrapper);
+      });
+      allLinks[i].addEventListener("mouseout", () => {
+        let linkTargetWrapper = document.getElementById("link-target-wrapper");
+        if (document.body.contains(linkTargetWrapper)) {
+          linkTargetWrapper.remove();
+        }
+      });
     }
-    let wrapper = document.createElement("strong");
+});
 
-    wrapper.id = "link-target-wrapper";
-
-    wrapper.innerText = msg;
-
-    if (bgColor) {
-      wrapper.style.backgroundColor = bgColor;
-    } else {
-      wrapper.style.backgroundColor = bgColor;
-    }
-
-    document.body.prepend(wrapper);
-  });
-  allLinks[i].addEventListener("mouseout", () => {
-    let linkTargetWrapper = document.getElementById("link-target-wrapper");
-    if (document.body.contains(linkTargetWrapper)) {
-      linkTargetWrapper.remove();
-    }
-  });
-}
+// define what element should be observed by the observer
+// and what types of mutations trigger the callback
+observer.observe(document, {
+  subtree: true,
+  attributes: true
+  //...
+});
