@@ -1,48 +1,43 @@
-MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+// MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-var observer = new MutationObserver(function(mutations, observer) {
-    // fired when a mutation occurs
-    let allLinks = document.getElementsByTagName("a");
-    let msg, bgColor;
+// var observer = new MutationObserver(function(mutations, observer) {
+//   // fired when a mutation occurs
+//   console.log("DOM has changed");
+//   setTimeout(updateLinks, 5000);
+// });
 
-    for (let i = 0; i < allLinks.length; i++) {
-      allLinks[i].addEventListener("mouseover", () => {
-        let target = allLinks[i].getAttribute("target");
+// // define what element should be observed by the observer
+// // and what types of mutations trigger the callback
+// observer.observe(document, {
+//   subtree: true,
+//   attributes: true
+// });
 
-        if (target === "_blank") {
-          msg = "New Tab";
-          bgColor = "#FF3434";
-        } else {
-          msg = "Same Tab";
-          bgColor = "rgb(0 149 255 / 90%)";
-        }
-        let wrapper = document.createElement("strong");
+if (document.readyState == 'complete') {
+  onPageLoad();
+} else {
+  document.addEventListener('readystatechange', onPageLoad );
+}
 
-        wrapper.id = "link-target-wrapper";
+function onPageLoad() {
+  repeat(updateLinks, 3, 5000);
+}
 
-        wrapper.innerText = msg;
+function repeat(procedure, times, timeout) {
+  if (times > 0) {
+    procedure();
+    console.log("Waiting " + timeout + " miliseconds.");
+    setTimeout(() => {repeat(procedure, times - 1, timeout);}, timeout);
+  }
+  console.log(document.readyState);
+}
 
-        if (bgColor) {
-          wrapper.style.backgroundColor = bgColor;
-        } else {
-          wrapper.style.backgroundColor = bgColor;
-        }
-
-        document.body.prepend(wrapper);
-      });
-      allLinks[i].addEventListener("mouseout", () => {
-        let linkTargetWrapper = document.getElementById("link-target-wrapper");
-        if (document.body.contains(linkTargetWrapper)) {
-          linkTargetWrapper.remove();
-        }
-      });
+function updateLinks() {
+  console.log("Updating links");
+  for (var i = 0, l = document.links.length; i < l; ++i) {
+    link = document.links[i];
+    if (link.getAttribute("target") == "_blank") {
+      link.setAttribute("target", "_self");
     }
-});
-
-// define what element should be observed by the observer
-// and what types of mutations trigger the callback
-observer.observe(document, {
-  subtree: true,
-  attributes: true
-  //...
-});
+  }
+}
