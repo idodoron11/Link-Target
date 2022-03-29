@@ -1,5 +1,5 @@
-# Link-Target
-A Chrome and Firefox Extension that tells you whether the link you are hovering will open in the same tab or a new tab
+# Open Links in The Same Tab
+A Chrome and Firefox extension that enforces all links to open in the same tab.
 
 ## Chrome Usage
 1. Clone the Repository or download it.
