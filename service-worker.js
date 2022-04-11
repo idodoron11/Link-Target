@@ -6,9 +6,10 @@ function addContextMenuEntries() {
     });
     chrome.contextMenus.onClicked.addListener((info) => {
         if (info.menuItemId == "openLinkInTheSameTab") {
+            console.log(info.linkUrl);
             chrome.tabs.update({
                 url: info.linkUrl
-            });
+            })
         }
     });
 }
