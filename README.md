@@ -10,5 +10,3 @@ A Chrome and Firefox extension that enforces all links to open in the same tab.
 1. Click the Load unpacked button and select the extension directory.
 1. Refresh Your Browser if needed
 1. Star the Project
-
-![Demo](https://developer-chrome-com.imgix.net/image/BrQidfK9jaQyIHwdw91aVpkPiib2/iYdLKFsJ1KSVGLhbLRvS.png?auto=format&w=650)
